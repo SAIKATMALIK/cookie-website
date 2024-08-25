@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import Cards from './Cards';
-
 import Shimmer from './Shimmer.jsx';
 import { Link } from 'react-router-dom';
 import useOnlineStatus from '../utils/useOnlineStatus';
@@ -13,12 +12,10 @@ const Body = () => {
   // API call
   useEffect(() => {
     fetchData();
-  },[]);
+  }, []);
 
   const fetchData = async () => {
-
     try {
-      
       const response = await fetch("https://www.swiggy.com/dapi/restaurants/list/v5?lat=17.486463086305346&lng=78.3657343313098&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING");
       const data = await response.json();
       const actualData = data.data.cards[1]?.card?.card?.gridElements?.infoWithStyle?.restaurants;
@@ -28,40 +25,48 @@ const Body = () => {
       console.log(error);
     }
   };
-  
 
   const handleSearch = () => {
-    const filterData = restaurants.filter((res) => res.info.name.toLowerCase().includes(search.toLowerCase()));
+    const filterData = restaurants.filter((res) =>
+      res.info.name.toLowerCase().includes(search.toLowerCase())
+    );
     setFilteredRestaurants(filterData);
   };
-  
+
   const Onlinestatus = useOnlineStatus();
-  if (Onlinestatus === false) return (<>
-    <h1>Looks like you are offline</h1>
-  </>);
+  if (Onlinestatus === false)
+    return (
+      <div className="p-4 bg-[#0f172a] text-white">
+        <h1>Looks like you are offline</h1>
+      </div>
+    );
 
   return (
-    <div className="p-4 bg-[#0f172a] text-white">
+    <div className="p-4 bg-[#0f172a] text-white min-h-screen">
       <div className="flex justify-center mb-4">
         <input
           type="text"
-          className='w-[300px] p-3 border text-black rounded-lg'
+          className="w-[300px] p-3 border text-black rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
           value={search}
-          onChange={(e) => { setSearch(e.target.value) }}
+          onChange={(e) => {
+            setSearch(e.target.value);
+          }}
           placeholder="Search for restaurants..."
         />
         <button
-          type='button'
-          className='bg-slate-500 text-white p-3 ml-2 rounded-md hover:bg-slate-600'
+          type="button"
+          className="bg-slate-500 text-white p-3 ml-2 rounded-md hover:bg-slate-600"
           onClick={handleSearch}
         >
           Search
         </button>
       </div>
-      <div className="flex flex-wrap justify-center items-center">
-        {filteredRestaurants.length === 0 ? <Shimmer /> : (
+      <div className="flex flex-wrap justify-center items-center gap-4">
+        {filteredRestaurants.length === 0 ? (
+          <Shimmer />
+        ) : (
           filteredRestaurants.map((restaurant, key) => (
-            <Link to={"/resturent/" + restaurant.info.id} key={key}>
+            <Link to={"/resturent/" + restaurant.info.id} key={key} className="w-[300px] m-2">
               <Cards
                 image={`https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_660/${restaurant.info.cloudinaryImageId}`}
                 resname={restaurant.info.name}
