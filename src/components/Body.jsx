@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Cards from './Cards';
+
 import Shimmer from './Shimmer.jsx';
 import { Link } from 'react-router-dom';
 import useOnlineStatus from '../utils/useOnlineStatus';
@@ -15,17 +16,19 @@ const Body = () => {
   },[]);
 
   const fetchData = async () => {
+
     try {
+      
       const response = await fetch("https://www.swiggy.com/dapi/restaurants/list/v5?lat=17.486463086305346&lng=78.3657343313098&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING");
       const data = await response.json();
       const actualData = data.data.cards[1]?.card?.card?.gridElements?.infoWithStyle?.restaurants;
       setRestaurants(actualData);
       setFilteredRestaurants(actualData);
-      // console.log(actualData);
     } catch (error) {
       console.log(error);
     }
-  }
+  };
+  
 
   const handleSearch = () => {
     const filterData = restaurants.filter((res) => res.info.name.toLowerCase().includes(search.toLowerCase()));

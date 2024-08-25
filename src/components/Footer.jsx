@@ -10,6 +10,7 @@ const Footer = () => {
 
     <h1 className='flex items-center justify-center'><MdFastfood size={20}/>cookie</h1>
     <p>we are happy to serve you!😊</p>
+    
   </div>
 
   <div className="footer-middle">
@@ -20,6 +21,7 @@ const Footer = () => {
             <li><Link to="/about">About</Link></li>
             <li><Link to="/resturent">Restaurant</Link></li>
             <li><Link to="/login">Login</Link></li>
+            <li>please add the chrome extension CORS to see the website</li>
           </ul>
         </div>
  
